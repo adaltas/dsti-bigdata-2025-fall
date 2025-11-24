@@ -104,44 +104,40 @@ For each partition:
 
 [Dataflow model](http://www.vldb.org/pvldb/vol8/p1792-Akidau.pdf): define the pipeline with 4 questions:
 
-1. **What** results are calculated?
-2. **Where** in event time are result calculated?
-3. **When** in processing time are results materialized?
-4. **How** do refinements of results relate?
+- **What** results are being computed.
+- **Where** in event time they are being computed.
+- **When** in processing time they are materialized.
+- **How** earlier results relate to later refinements.
 
 Let's look at the examples for each of them.
 
 1. **What** results are calculated? → **Aggregation**
 
-Eg. sum by key
+    e.g. sum by key
 
-![Aggregation](./assets/img-3.gif)
+    ![Aggregation](./assets/img-3.gif)
 
 2. **When** in event time are results are calculated? → **Windows**
 
-Eg. fixed window of 1 hour
+    e.g. fixed window of 1 hour
 
-![Windows](./assets/img-4.gif)
+    ![Windows](./assets/img-4.gif)
 
-3. a. **When** in processing time are results materialized? → **Triggers**
+3. **When** in processing time are results materialized? → **Triggers**
 
-Eg. every 10 min in processing time if new element(s)
+    e.g. every 10 min in processing time if new element(s)
 
-![Triggers](./assets/img-5.gif)
+    ![Triggers](./assets/img-6.gif)
 
-3. b. **Triggers =** watermark, processing time, count...
-
-Eg. every 10 min in processing time if new element(s)
-
-![Triggers = watermark](./assets/img-6.gif)
+    - Triggers = watermark, processing time, count...
 
 4. **How** do refinements of results relate?
 
-Multiple results for a window:
+    Multiple results for a window:
 
-- Discarding = send each result separately
-- Accumulating = send the aggregated result every time
-- Both = send aggregate result + retraction message
+    - Discarding: send each result separately
+    - Accumulating: send the aggregated result every time
+    - Both(Accumulating & Retracting): send aggregate result + retract message
 
 ## Stream processing engines
 
