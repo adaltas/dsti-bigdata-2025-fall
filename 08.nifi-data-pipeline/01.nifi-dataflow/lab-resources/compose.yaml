@@ -42,7 +42,7 @@ services:
   
   adminer:
     container_name: adminer-postgres
-    image: lab-adminer
+    image: adminer
     restart: always
     networks:
       - lab-nifi-net

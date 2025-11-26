@@ -31,7 +31,7 @@ For the NiFi Labs, we will be setting up and utilizing two Docker containers, [N
 
    **NOTE**: Please make sure to replace the credentials in the `compose.yaml`, and note that the NiFi password must be 12 characters minimum, otherwise NiFi will generate a random username and password. See `secure.sh` and `start.sh` scripts for supported environment variables.
 
-   Access the NiFi ui: https://localhost:8443/nifi/login
+   Access the NiFi ui: https://localhost:8443/nifi/#/login
 
    Access the NiFi-Registry ui: http://localhost:18080/nifi-registry
 

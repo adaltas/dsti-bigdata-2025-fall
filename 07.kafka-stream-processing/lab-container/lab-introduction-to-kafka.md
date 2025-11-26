@@ -29,7 +29,7 @@ docker compose up -d
     ```bash
     docker exec -it lab-kafka-data-producer /bin/sh
     # Inside the container:
-    python producer.py \
+    python kafka_producer.py \
         --brokers lab-kafka01:9092,lab-kafka02:9092 \
         --topic demo-nyc-taxi-fare \
         --csv data.csv \

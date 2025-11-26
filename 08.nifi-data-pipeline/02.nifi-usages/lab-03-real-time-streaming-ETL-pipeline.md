@@ -19,15 +19,69 @@ duration: 1h
 
 ## Build consumer in NiFi
 
-1. Use the "ConsumeKafkaRecord_2_6" processor to consume Kafka messages. Configure the processor with the following values:
+1. Use the "ConsumeKafka" processor to consume Kafka messages. Configure the processor with the following values:
 
-- Kafka Brokers: `lab-kafka01:9092,lab-kafka02:9092`
-- Topic Name(s): `demo-nyc-taxi-fare`
-- Value Record Reader: `JsonTreeReader`
-- Record Value Writer: `JsonRecordSetWriter`
-- Group ID: `nifi-group`
+    ```
+    - Kafka Connection Service: Kafka3ConnectionService
+    - Group ID: nifi-CG-01
+    - Topic Name(s): demo-nyc-taxi-fare
+    - Processing Strategy: RECORD
+    - Value Record Reader: JsonTreeReader
+    - Record Value Writer: JsonRecordSetWriter
+    ```
 
-2. Configure 2 Json controllers. Note that "Schema Access Strategy" should be "Use 'Schema Text' Property" and provide an avro schema for the controller.
+2. Configure "Kafka3ConnectionService" controller:
+
+    ```
+    - Bootstrap Servers: lab-kafka01:9092,lab-kafka02:9092
+    ```
+
+Enable the controller after configuration.
+
+3. Define dataset schema in a parameter context.
+
+- Click on the "Configuration" of the current process group, and click the "+" button next to "Parameter Context".
+
+    ```
+    - Name: lab-kafka-nifi
+    ```
+
+- add a new parameter:
+
+    ```
+    - Name: avro.schema.nycdriver.raw
+    {
+        "type" : "record",
+        "name" : "nyc_taxi",
+        "fields" : [
+            { "name": "VendorID", "type": "string" },
+            { "name": "tpep_pickup_datetime", "type": "string" },
+            { "name": "tpep_dropoff_datetime", "type": "string" },
+            { "name": "passenger_count", "type": "string" },
+            { "name": "trip_distance", "type": "string" },
+            { "name": "RatecodeID", "type": "string" },
+            { "name": "store_and_fwd_flag", "type": "string" },
+            { "name": "PULocationID", "type": "string" },
+            { "name": "DOLocationID", "type": "string" },
+            { "name": "payment_type", "type": "string" },
+            { "name": "fare_amount", "type": "string" },
+            { "name": "extra", "type": "string" },
+            { "name": "mta_tax", "type": "string" },
+            { "name": "tip_amount", "type": "string" },
+            { "name": "tolls_amount", "type": "string" },
+            { "name": "improvement_surcharge", "type": "string" },
+            { "name": "total_amount", "type": "string" },
+            { "name": "congestion_surcharge", "type": "string" }
+        ]
+    }
+    ```
+
+4. Configure 2 Json controllers. Note that "Schema Access Strategy" should be "Use 'Schema Text' Property" and provide an avro schema for the controller. Enable 2 controllers after configuration.
+
+- Schema Access Strategy: `Use 'Schema Text' Property`
+- Schema Text: `#{avro.schema.nycdriver.raw}`
+
+4. Set connection "success" and "parse failure" to temp funnels.
 
 ## Build transformation process
 

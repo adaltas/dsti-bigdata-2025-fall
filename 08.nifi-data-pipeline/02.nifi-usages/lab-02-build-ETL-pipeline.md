@@ -26,8 +26,7 @@ duration: 2h
 
    ```bash
    # inside the container
-   wget https://repo1.maven.org/maven2/org/postgresql/postgresql/42.2.24/postgresql-42.2.24.jar -O /opt/nifi/nifi-current/lib/postgresql-42.2.24.jar
-   chmod 664 /opt/nifi/nifi-current/lib/postgresql-42.2.24.jar
+   curl -L https://repo1.maven.org/maven2/org/postgresql/postgresql/42.2.24/postgresql-42.2.24.jar -o /opt/nifi/nifi-current/lib/postgresql-42.2.24.jar
    exit
    ```
 
@@ -69,7 +68,7 @@ duration: 2h
 
 ## Build a dataflow
 
-1. Download the dataset from [NYC Taxi Fare Dataset in Kaggle](https://www.kaggle.com/datasets/diishasiing/revenue-for-cab-drivers?resource=download), and place the CSV file into `nifi-126` container.
+1. Download the dataset from [NYC Taxi Fare Dataset in Kaggle](https://www.kaggle.com/datasets/diishasiing/revenue-for-cab-drivers?resource=download), and place the CSV file into `lab-nifi` container.
 
    ```bash
       docker cp <target_file_path> <container_id>:<target_dir_path>
@@ -95,7 +94,7 @@ duration: 2h
 
       #### and in the controller of "DBCPConnectionPool"
 
-      - Database Connection URL: `jdbc:postgresql://<ip addr of the container>:5432/dsti_db`
+      - Database Connection URL: `jdbc:postgresql://<ip addr of the container>:5432/<db-name>`
       - Database Driver Class Name: `org.postgresql.Driver`
       - Database Driver Location(s): `/opt/nifi/nifi-current/lib/postgresql-42.2.24.jar`
       - Database User: `<postgres username>`
