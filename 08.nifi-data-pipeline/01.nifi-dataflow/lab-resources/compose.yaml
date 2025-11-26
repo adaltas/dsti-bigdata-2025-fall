@@ -1,6 +1,6 @@
 services:
   nifi:
-    image: "apache/nifi:1.26.0"
+    image: "apache/nifi:latest"
     container_name: lab-nifi
     ports:
       - "8443:8443"
@@ -13,7 +13,7 @@ services:
       - lab-kafka-net
 
   nifi-registry:
-    image: "apache/nifi-registry:1.26.0"
+    image: "apache/nifi-registry:latest"
     container_name: lab-nifi-registry
     restart: always
     networks:
@@ -50,8 +50,8 @@ services:
       - 8080:8080
 
 networks:
-  dsti-nifi-net:
+  lab-nifi-net:
     name: lab-nifi-net
     driver: bridge
-  dsti-kafka-net:
+  lab-kafka-net:
     external: true
