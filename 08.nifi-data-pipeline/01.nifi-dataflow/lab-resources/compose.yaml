@@ -8,6 +8,8 @@ services:
       NIFI_WEB_HTTPS_PORT: "8443"
       SINGLE_USER_CREDENTIALS_USERNAME: <nifi-username>
       SINGLE_USER_CREDENTIALS_PASSWORD: <nifi-password>
+      NIFI_UI_AUTOREFRESH_INTERVAL: 5
+
     networks:
       - lab-nifi-net
       - lab-kafka-net
@@ -38,7 +40,7 @@ services:
     environment:
       - POSTGRES_USER=<postgres-username>
       - POSTGRES_PASSWORD=<postgres-password>
-      - POSTGRES_DB=<db-name>
+      - POSTGRES_DB=lab_db_nifi
   
   adminer:
     container_name: adminer-postgres

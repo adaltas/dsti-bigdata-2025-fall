@@ -21,13 +21,10 @@ duration: 2h
 1. You will need the following .jar file in NiFi container for accessing the Postgres database, so do the following command in the directory that you have mounted between your local file system and the contianer. Go into the container to get the resource into "/opt/nifi/nifi-current/lib/" folder
 
    ```bash
-   docker exec -it lab-nifi /bin/bash
-   ```
-
-   ```bash
-   # inside the container
-   curl -L https://repo1.maven.org/maven2/org/postgresql/postgresql/42.2.24/postgresql-42.2.24.jar -o /opt/nifi/nifi-current/lib/postgresql-42.2.24.jar
-   exit
+   docker exec -it lab-nifi sh -c "
+      mkdir -p /home/nifi/source/nyc_driver/ &&
+      curl -L -o /home/nifi/source/nyc_driver/revenue-for-cab-drivers.zip https://www.kaggle.com/api/v1/datasets/download/diishasiing/revenue-for-cab-drivers &&
+      unzip /home/nifi/source/nyc_driver/revenue-for-cab-drivers.zip -d /home/nifi/source/nyc_driver/"
    ```
 
 2. Restart the container
@@ -71,7 +68,11 @@ duration: 2h
 1. Download the dataset from [NYC Taxi Fare Dataset in Kaggle](https://www.kaggle.com/datasets/diishasiing/revenue-for-cab-drivers?resource=download), and place the CSV file into `lab-nifi` container.
 
    ```bash
-      docker cp <target_file_path> <container_id>:<target_dir_path>
+   docker exec -it lab-nifi \
+      curl -L -o /home/nifi/source/nyc_driver/revenue-for-cab-drivers.zip \
+      https://www.kaggle.com/api/v1/datasets/download/diishasiing/revenue-for-cab-drivers
+   docker exec -it lab-nifi \
+      unzip /home/nifi/source/revenue-for-cab-drivers.zip -d /home/nifi/source/nyc_driver
    ```
 
 2. Use at least one "UpdateRecord" processor to do basic transformation with the FlowFile.
